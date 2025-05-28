@@ -68,14 +68,21 @@ const LogsScreen = ({ navigation }) => {
   };
 
   const renderLogItem = ({ item }) => (
-    <TouchableOpacity style={styles.logItem}>
+    <TouchableOpacity 
+      style={styles.logItem}
+      onPress={() => navigation.navigate('FoodDetail', { foodItem: item })}
+      activeOpacity={0.7}
+    >
       <View style={styles.logHeader}>
         <Text style={styles.foodName}>{item.foodItem}</Text>
-        <View style={[
-          styles.countBadge,
-          { backgroundColor: getMicroplasticsColor(item.microplasticsCount) }
-        ]}>
-          <Text style={styles.countText}>{item.microplasticsCount}</Text>
+        <View style={styles.rightSection}>
+          <View style={[
+            styles.countBadge,
+            { backgroundColor: getMicroplasticsColor(item.microplasticsCount) }
+          ]}>
+            <Text style={styles.countText}>{item.microplasticsCount}</Text>
+          </View>
+          <Text style={styles.chevron}>›</Text>
         </View>
       </View>
       
@@ -95,6 +102,8 @@ const LogsScreen = ({ navigation }) => {
           : `${item.microplasticsCount} microplastic particle${item.microplasticsCount > 1 ? 's' : ''} found`
         }
       </Text>
+      
+      <Text style={styles.tapHint}>Tap for details</Text>
     </TouchableOpacity>
   );
 
@@ -205,6 +214,10 @@ const styles = StyleSheet.create({
     color: '#333',
     flex: 1,
   },
+  rightSection: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   countBadge: {
     minWidth: 30,
     height: 30,
@@ -236,6 +249,16 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#333',
     fontStyle: 'italic',
+  },
+  chevron: {
+    fontSize: 14,
+    color: '#666',
+    marginLeft: 8,
+  },
+  tapHint: {
+    fontSize: 12,
+    color: '#666',
+    textAlign: 'right',
   },
   emptyContainer: {
     flex: 1,

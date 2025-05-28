@@ -6,12 +6,13 @@ import {
   SafeAreaView,
   ScrollView,
   Dimensions,
+  TouchableOpacity,
 } from 'react-native';
 
 const { width } = Dimensions.get('window');
 const MAX_BAR_HEIGHT = 120;
 
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }) => {
   // Mock data for weekly microplastics consumption
   const weeklyData = [
     { day: 'Mon', count: 12, date: '15' },
@@ -46,8 +47,15 @@ const HomeScreen = () => {
 
   const renderBarChart = () => {
     return (
-      <View style={styles.chartContainer}>
-        <Text style={styles.chartTitle}>Weekly Microplastics Consumption</Text>
+      <TouchableOpacity 
+        style={styles.chartContainer}
+        onPress={() => navigation.navigate('Trends')}
+        activeOpacity={0.8}
+      >
+        <View style={styles.chartHeader}>
+          <Text style={styles.chartTitle}>Weekly Microplastics</Text>
+          <Text style={styles.chartHint}>Click to see trendline</Text>
+        </View>
         
         {/* Y-axis labels */}
         <View style={styles.chartWrapper}>
@@ -115,7 +123,7 @@ const HomeScreen = () => {
             ))}
           </View>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   };
 
@@ -256,12 +264,27 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 3,
   },
+  chartHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 15,
+    paddingHorizontal: 5,
+    flexWrap: 'wrap',
+  },
   chartTitle: {
     fontSize: 18,
     fontWeight: 'bold',
     color: '#333',
-    marginBottom: 20,
-    textAlign: 'center',
+    flex: 1,
+    flexShrink: 1,
+  },
+  chartHint: {
+    fontSize: 11,
+    color: '#666',
+    fontStyle: 'italic',
+    flexShrink: 0,
+    marginLeft: 10,
   },
   chartWrapper: {
     flexDirection: 'row',
